@@ -1,6 +1,6 @@
 # flaskモジュールの直下のFlaskとrequestとioのインポート
 from flask import Flask, request,render_template,make_response,jsonify
-import io
+import io, os
 # PIL.Imageのことを今度からIって呼びます
 import PIL.Image as I
 # 起動開始時のまじない
@@ -34,7 +34,7 @@ def upload():
 
     img.save('static/image.jpg', 'JPEG')
     #I.open(binary).save('static/image.jpg')
-    cache.delete(f'view//{key}')
+    #cache.delete(f'view//{key}')
     return render_template('index.html')
 # @app.after_request
 # def add_header(response):
@@ -51,21 +51,22 @@ def add_header(r):
     return r
 
 
-@app.context_processor
-def override_url_for():
-    return dict(url_for=dated_url_for)
-
-def dated_url_for(endpoint, **values):
-    if endpoint == 'static':
-        filename = values.get('filename', None)
-        if filename:
-            file_path = os.path.join(app.root_path,
-                                     endpoint, filename)
-            values['q'] = int(os.stat(file_path).st_mtime)
-    return url_for(endpoint, **values)
+#@app.context_processor
+#def override_url_for():
+#    return dict(url_for=dated_url_for)
+#
+#def dated_url_for(endpoint, **values):
+#    if endpoint == 'static':
+#        filename = values.get('filename', None)
+#        if filename:
+#            file_path = os.path.join(app.root_path,
+#                                     endpoint, filename)
+#            values['q'] = int(os.stat(file_path).st_mtime)
+#    return url_for(endpoint, **values)
 
 if __name__ == "__main__":
     # webサーバー立ち上げ
+    app.debug = True
     app.run(host = '0.0.0.0',port = 80)
 
 
