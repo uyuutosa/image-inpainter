@@ -1,5 +1,6 @@
 # flaskモジュールの直下のFlaskとrequestとioのインポート
 from flask import Flask, request,render_template,make_response,jsonify
+from numpy import *
 import io, os
 # PIL.Imageのことを今度からIって呼びます
 import PIL.Image as I
@@ -49,6 +50,15 @@ def add_header(r):
     r.headers["Expires"] = "0"
     r.headers['Cache-Control'] = 'public, max-age=0'
     return r
+
+@app.context_processor
+def utility_processor():
+    def add_query(line):
+        line += "?{:06d}"
+        line =  line.format(random.randint(100000))
+        print(line)
+        return line
+    return dict(add_query=add_query)
 
 
 #@app.context_processor

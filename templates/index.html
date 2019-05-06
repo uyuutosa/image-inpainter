@@ -2,12 +2,13 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
+      <meta http-equiv="content-type" charset="utf-8">
   </head>
   <body>
     <h1>Image impainter</h1>
     <h2>1. Upload image</h2>
 
-    <img src="{{url_for('static', filename='image.jpg')}}" width="300"/>
+    <img src="{{add_query(url_for('static', filename='image.jpg'))}}" width="300"/>
     <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" value="front"name="uploadFile"/>
         <input type="submit" value="送信する"/>
